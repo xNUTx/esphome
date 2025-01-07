@@ -115,6 +115,12 @@ void DFPlayer::play_folder(uint16_t folder, uint16_t file) {
   }
 }
 
+void DFPlayer::queryTrack() {
+  this->ack_set_is_playing_ = true;
+  ESP_LOGD(TAG, "Queried playing track.");
+  this->send_cmd_(0x4B);
+}
+
 void DFPlayer::send_cmd_(uint8_t cmd, uint16_t argument) {
   uint8_t buffer[10]{0x7e, 0xff, 0x06, cmd, 0x01, (uint8_t) (argument >> 8), (uint8_t) argument, 0x00, 0x00, 0xef};
   uint16_t checksum = 0;
