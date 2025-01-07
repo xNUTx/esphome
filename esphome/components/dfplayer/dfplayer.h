@@ -47,6 +47,7 @@ class DFPlayer : public uart::UARTDevice, public Component {
   void pause();
   void stop();
   void random();
+  void queryTrack();
 
   bool is_playing() { return is_playing_; }
   void dump_config() override;
