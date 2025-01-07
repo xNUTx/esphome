@@ -116,7 +116,6 @@ void DFPlayer::play_folder(uint16_t folder, uint16_t file) {
 }
 
 void DFPlayer::queryTrack() {
-  this->ack_set_is_playing_ = true;
   ESP_LOGD(TAG, "Queried playing track.");
   this->send_cmd_(0x4C);
 }
