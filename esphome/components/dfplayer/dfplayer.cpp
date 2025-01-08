@@ -117,7 +117,7 @@ void DFPlayer::play_folder(uint16_t folder, uint16_t file) {
 
 void DFPlayer::queryTrack() {
   ESP_LOGD(TAG, "Queried playing track.");
-  this->send_cmd_(0x4C);
+  this->send_cmd_(0x48);
 }
 
 void DFPlayer::send_cmd_(uint8_t cmd, uint16_t argument) {
