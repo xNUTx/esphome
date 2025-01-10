@@ -12,6 +12,9 @@ DFPlayer = dfplayer_ns.class_("DFPlayer", cg.Component)
 DFPlayerFinishedPlaybackTrigger = dfplayer_ns.class_(
     "DFPlayerFinishedPlaybackTrigger", automation.Trigger.template()
 )
+DFPlayerQueryTrackTrigger = dfplayer_ns.class_(
+    "DFPlayerQueryTrackTrigger", automation.Trigger.template()
+)
 DFPlayerIsPlayingCondition = dfplayer_ns.class_(
     "DFPlayerIsPlayingCondition", automation.Condition
 )
