@@ -21,6 +21,7 @@ CONF_FOLDER = "folder"
 CONF_LOOP = "loop"
 CONF_EQ_PRESET = "eq_preset"
 CONF_ON_FINISHED_PLAYBACK = "on_finished_playback"
+CONF_ON_QUERY_TRACK = "on_query_track"
 
 EqPreset = dfplayer_ns.enum("EqPreset")
 EQ_PRESET = {
