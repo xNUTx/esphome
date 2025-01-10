@@ -115,7 +115,7 @@ void DFPlayer::play_folder(uint16_t folder, uint16_t file) {
   }
 }
 
-void DFPlayer::queryTrack() {
+void DFPlayer::query_track() {
   ESP_LOGD(TAG, "Queried playing track.");
   this->send_cmd_(0x4C);
 }
@@ -244,6 +244,7 @@ void DFPlayer::loop() {
             this->ack_reset_is_playing_ = false;
             break;
           case 0x4C:
+            this->running_track_ = argument;
             ESP_LOGV(TAG, "Reply received on Query, cmd %#02x arg %#04x", cmd, argument);
             break;
           case 0x3D:
