@@ -53,6 +53,7 @@ PauseAction = dfplayer_ns.class_("PauseAction", automation.Action)
 StopAction = dfplayer_ns.class_("StopAction", automation.Action)
 RandomAction = dfplayer_ns.class_("RandomAction", automation.Action)
 SetDeviceAction = dfplayer_ns.class_("SetDeviceAction", automation.Action)
+QueryTrackAction = dfplayer_ns.class_("QueryTrackAction", automation.Action)
 
 CONFIG_SCHEMA = cv.All(
     cv.Schema(
