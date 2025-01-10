@@ -359,6 +359,21 @@ async def dfplayer_random_to_code(config, action_id, template_arg, args):
     return var
 
 
+@automation.register_action(
+    "dfplayer.query_track",
+    QueryTrackAction,
+    cv.Schema(
+        {
+            cv.GenerateID(): cv.use_id(DFPlayer),
+        }
+    ),
+)
+async def dfplayer_query_track_to_code(config, action_id, template_arg, args):
+    var = cg.new_Pvariable(action_id, template_arg)
+    await cg.register_parented(var, config[CONF_ID])
+    return var
+
+
 @automation.register_condition(
     "dfplayer.is_playing",
     DFPlayerIsPlayingCondition,
