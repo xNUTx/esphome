@@ -66,6 +66,13 @@ CONFIG_SCHEMA = cv.All(
                     ),
                 }
             ),
+            cv.Optional(CONF_ON_QUERY_TRACK): automation.validate_automation(
+                {
+                    cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(
+                        DFPlayerQueryTrackTrigger
+                    ),
+                }
+            ),
         }
     ).extend(uart.UART_DEVICE_SCHEMA)
 )
@@ -80,6 +87,10 @@ async def to_code(config):
     await uart.register_uart_device(var, config)
 
     for conf in config.get(CONF_ON_FINISHED_PLAYBACK, []):
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+        await automation.build_automation(trigger, [], conf)
+
+    for conf in config.get(CONF_ON_QUERY_TRACK, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(trigger, [], conf)
 
