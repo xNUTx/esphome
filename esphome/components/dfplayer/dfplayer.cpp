@@ -244,8 +244,9 @@ void DFPlayer::loop() {
             this->ack_reset_is_playing_ = false;
             break;
           case 0x4C:
-            this->running_track_ = argument;
             ESP_LOGV(TAG, "Reply received on Query, cmd %#02x arg %#04x", cmd, argument);
+            this->running_track_ = argument;
+            this->on_query_track_callback_.call();
             break;
           case 0x3D:
             ESP_LOGV(TAG, "Playback finished");
