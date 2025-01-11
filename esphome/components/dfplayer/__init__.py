@@ -13,7 +13,7 @@ DFPlayerFinishedPlaybackTrigger = dfplayer_ns.class_(
     "DFPlayerFinishedPlaybackTrigger", automation.Trigger.template()
 )
 DFPlayerQueryTrackTrigger = dfplayer_ns.class_(
-    "DFPlayerQueryTrackTrigger", automation.Trigger.template()
+    "DFPlayerQueryTrackTrigger", automation.Trigger.template(cg.uint16)
 )
 DFPlayerIsPlayingCondition = dfplayer_ns.class_(
     "DFPlayerIsPlayingCondition", automation.Condition
@@ -97,7 +97,7 @@ async def to_code(config):
     for conf in config.get(CONF_ON_QUERY_TRACK, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(
-            trigger, [(cg.int_, "running_track_")], conf
+            trigger, [(cg.int_, "trackid")], conf
         )
 
 @automation.register_action(
