@@ -73,7 +73,9 @@ class DFPlayer : public uart::UARTDevice, public Component {
   bool is_playing_{false};
   bool ack_set_is_playing_{false};
   bool ack_reset_is_playing_{false};
-  
+
+  uint16_t returned_track_{0};
+
   CallbackManager<void()> on_finished_playback_callback_;
   CallbackManager<void()> on_query_track_callback_;
 };
@@ -188,7 +190,7 @@ class DFPlayerFinishedPlaybackTrigger : public Trigger<> {
 class DFPlayerQueryTrackTrigger : public Trigger<> {
  public:
   explicit DFPlayerQueryTrackTrigger(DFPlayer *parent) {
-    parent->add_on_query_track_callback([this]() { this->trigger(trackid); });
+    parent->add_on_query_track_callback([this]() { this->trigger(this->returned_track_); });
   }
 };
 
