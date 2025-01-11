@@ -190,7 +190,7 @@ class DFPlayerFinishedPlaybackTrigger : public Trigger<> {
 class DFPlayerQueryTrackTrigger : public Trigger<> {
  public:
   explicit DFPlayerQueryTrackTrigger(DFPlayer *parent) {
-    parent->add_on_query_track_callback([this]() { this->trigger(this->returned_track_); });
+    parent->add_on_query_track_callback([this](uint16_t returned_track_) { this->trigger(returned_track_); });
   }
 };
 
