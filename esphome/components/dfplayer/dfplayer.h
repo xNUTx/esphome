@@ -55,10 +55,7 @@ class DFPlayer : public uart::UARTDevice, public Component {
   void add_on_finished_playback_callback(std::function<void()> callback) {
     this->on_finished_playback_callback_.add(std::move(callback));
   }
-
-  void add_on_query_track_callback(std::function<void(uint16_t)> callback) {
-    this->on_query_track_callback_.add(std::move(callback));
-  }
+  Trigger<int> *get_track_trigger() const { return track_trigger_; }
 
  protected:
   void send_cmd_(uint8_t cmd, uint16_t argument = 0);
@@ -74,10 +71,8 @@ class DFPlayer : public uart::UARTDevice, public Component {
   bool ack_set_is_playing_{false};
   bool ack_reset_is_playing_{false};
 
-  uint16_t returned_track_{0};
-
   CallbackManager<void()> on_finished_playback_callback_;
-  CallbackManager<void(uint16_t)> on_query_track_callback_;
+  Trigger<int> *track_trigger_ = new Trigger<int>();
 };
 
 #define DFPLAYER_SIMPLE_ACTION(ACTION_CLASS, ACTION_METHOD) \
@@ -184,13 +179,6 @@ class DFPlayerFinishedPlaybackTrigger : public Trigger<> {
  public:
   explicit DFPlayerFinishedPlaybackTrigger(DFPlayer *parent) {
     parent->add_on_finished_playback_callback([this]() { this->trigger(); });
-  }
-};
-
-class DFPlayerQueryTrackTrigger : public Trigger<uint16_t> {
- public:
-  explicit DFPlayerQueryTrackTrigger(DFPlayer *parent) {
-    parent->add_on_query_track_callback([this](uint16_t returned_track_) { this->trigger(returned_track_); });
   }
 };
 
