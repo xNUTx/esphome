@@ -55,6 +55,9 @@ class DFPlayer : public uart::UARTDevice, public Component {
   void add_on_finished_playback_callback(std::function<void()> callback) {
     this->on_finished_playback_callback_.add(std::move(callback));
   }
+  void add_on_query_track_callback(std::function<void(int)> callback) {
+    this->on_query_track_callback_.add(std::move(callback));
+  }
   Trigger<int> *get_track_trigger() const { return track_trigger_; }
 
  protected:
@@ -72,6 +75,7 @@ class DFPlayer : public uart::UARTDevice, public Component {
   bool ack_reset_is_playing_{false};
 
   CallbackManager<void()> on_finished_playback_callback_;
+  CallbackManager<void(int)> on_query_track_callback_;
   Trigger<int> *track_trigger_ = new Trigger<int>();
 };
 
