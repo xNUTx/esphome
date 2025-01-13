@@ -390,6 +390,7 @@ async def dfplayer_query_track_to_code(config, action_id, template_arg, args):
         await automation.build_automation(
             var.get_track_trigger(), [(int, "trackid")], config[CONF_ON_TRACK]
         )
+    return var
 
 @automation.register_condition(
     "dfplayer.is_playing",
