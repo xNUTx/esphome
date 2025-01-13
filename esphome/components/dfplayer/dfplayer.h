@@ -182,5 +182,12 @@ class DFPlayerFinishedPlaybackTrigger : public Trigger<> {
   }
 };
 
+class DFPlayerQueryTrackTrigger : public Trigger<uint16_t> {
+ public:
+  explicit DFPlayerQueryTrackTrigger(DFPlayer *parent) {
+    parent->add_on_query_track_callback([this](uint16_t returned_track_) { this->trigger(returned_track_); });
+  }
+};
+
 }  // namespace dfplayer
 }  // namespace esphome
