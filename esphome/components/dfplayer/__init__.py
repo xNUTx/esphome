@@ -24,7 +24,7 @@ CONF_FOLDER = "folder"
 CONF_LOOP = "loop"
 CONF_EQ_PRESET = "eq_preset"
 CONF_ON_FINISHED_PLAYBACK = "on_finished_playback"
-CONF_ON_QUERY_TRACK = "on_query_track"
+CONF_ON_TRACK = "on_track"
 
 EqPreset = dfplayer_ns.enum("EqPreset")
 EQ_PRESET = {
@@ -70,7 +70,7 @@ CONFIG_SCHEMA = cv.All(
                     ),
                 }
             ),
-            cv.Optional(CONF_ON_QUERY_TRACK): automation.validate_automation(
+            cv.Optional(CONF_ON_TRACK): automation.validate_automation(
                 {
                     cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(
                         DFPlayerQueryTrackTrigger
@@ -83,7 +83,6 @@ CONFIG_SCHEMA = cv.All(
 FINAL_VALIDATE_SCHEMA = uart.final_validate_device_schema(
     "dfplayer", baud_rate=9600, require_tx=True
 )
-
 
 async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
@@ -389,10 +388,8 @@ async def dfplayer_query_track_to_code(config, action_id, template_arg, args):
     await cg.register_parented(var, config[CONF_ID])
     if CONF_ON_TRACK in config:
         await automation.build_automation(
-            var.get_query_trigger(), [(int, "trackid")], config[CONF_ON_TRACK]
+            var.get_track_trigger(), [(int, "trackid")], config[CONF_ON_TRACK]
         )
-    return var
-
 
 @automation.register_condition(
     "dfplayer.is_playing",
