@@ -94,7 +94,7 @@ async def to_code(config):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(trigger, [], conf)
 
-    for conf in config.get(CONF_ON_QUERY_TRACK, []):
+    for conf in config.get(CONF_ON_TRACK, []):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(
             trigger, [(cg.int_, "trackid")], conf
@@ -387,6 +387,10 @@ async def dfplayer_random_to_code(config, action_id, template_arg, args):
 async def dfplayer_query_track_to_code(config, action_id, template_arg, args):
     var = cg.new_Pvariable(action_id, template_arg)
     await cg.register_parented(var, config[CONF_ID])
+    if CONF_ON_TRACK in config:
+        await automation.build_automation(
+            var.get_query_trigger(), [(int, "trackid")], config[CONF_ON_TRACK]
+        )
     return var
 
 
