@@ -84,10 +84,9 @@ async def to_code(config):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(trigger, [], conf)
 
-    for conf in config.get(CONF_ON_TRACK, []):
-        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+    for conf in config.get(CONF_ON_FAN, []):
         await automation.build_automation(
-            trigger, [(cg.int_, "trackid")], conf
+            var.get_track_trigger(), [(int, "trackid")], config[CONF_ON_FAN]
         )
 
 @automation.register_action(
