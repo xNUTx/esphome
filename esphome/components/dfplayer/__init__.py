@@ -67,7 +67,13 @@ CONFIG_SCHEMA = cv.All(
                     ),
                 }
             ),
-            cv.Optional(CONF_ON_TRACK): automation.validate_automation(single=True),
+            cv.Optional(CONF_ON_TRACK): automation.validate_automation(
+                {
+                    cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(
+                        DFPlayerOnTrackTrigger
+                    ),
+                }
+            ),
         }
     ).extend(uart.UART_DEVICE_SCHEMA)
 )
