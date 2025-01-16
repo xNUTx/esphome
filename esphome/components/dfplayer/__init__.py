@@ -376,10 +376,7 @@ async def dfplayer_random_to_code(config, action_id, template_arg, args):
 async def dfplayer_query_track_to_code(config, action_id, template_arg, args):
     var = cg.new_Pvariable(action_id, template_arg)
     await cg.register_parented(var, config[CONF_ID])
-    if CONF_ON_TRACK in config:
-        await automation.build_automation(
-            var.get_track_trigger(), [(int, "trackid")], config[CONF_ON_TRACK]
-        )
+    return var
 
 @automation.register_condition(
     "dfplayer.is_playing",
