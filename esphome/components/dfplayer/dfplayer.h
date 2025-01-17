@@ -55,8 +55,10 @@ class DFPlayer : public uart::UARTDevice, public Component {
   void add_on_finished_playback_callback(std::function<void()> callback) {
     this->on_finished_playback_callback_.add(std::move(callback));
   }
-  Trigger<uint16_t> *get_track_trigger() const { return track_trigger_; }
-
+  void add_on_track_query_callback(std::function<void(uint16_t)> callback) {
+    this->on_track_query_callback_.add(std::move(callback));
+  }
+ 
  protected:
   void send_cmd_(uint8_t cmd, uint16_t argument = 0);
   void send_cmd_(uint8_t cmd, uint16_t high, uint16_t low) {
@@ -72,7 +74,7 @@ class DFPlayer : public uart::UARTDevice, public Component {
   bool ack_reset_is_playing_{false};
 
   CallbackManager<void()> on_finished_playback_callback_;
-  Trigger<uint16_t> *track_trigger_ = new Trigger<uint16_t>();
+  CallbackManager<void()> on_track_query_callback_;
 };
 
 #define DFPLAYER_SIMPLE_ACTION(ACTION_CLASS, ACTION_METHOD) \
@@ -182,5 +184,11 @@ class DFPlayerFinishedPlaybackTrigger : public Trigger<> {
   }
 };
 
+class DFPlayerTrackQueryTrigger : public Trigger<uint16_t> {
+ public:
+  explicit DFPlayerTrackQueryTrigger(DFPlayer *parent) {
+    parent->add_on_track_query_callback([this](uint16_t track) { this->trigger(track); });
+  }
+};
 }  // namespace dfplayer
 }  // namespace esphome
