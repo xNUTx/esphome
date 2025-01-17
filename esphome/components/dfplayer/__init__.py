@@ -31,6 +31,8 @@ CONF_LOOP = "loop"
 CONF_EQ_PRESET = "eq_preset"
 CONF_ON_FINISHED_PLAYBACK = "on_finished_playback"
 CONF_ON_TRACK = "on_track"
+CONF_ON_VOLUME = "on_volume"
+CONF_ON_EQUALIZER = "on_equalizer"
 
 EqPreset = dfplayer_ns.enum("EqPreset")
 EQ_PRESET = {
@@ -86,6 +88,20 @@ CONFIG_SCHEMA = cv.All(
                     ),
                 }
             ),
+            cv.Optional(CONF_ON_VOLUME): automation.validate_automation(
+                {
+                    cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(
+                        DFPlayerVolumeQueryTrigger
+                    ),
+                }
+            ),
+            cv.Optional(CONF_ON_EQUALIZER): automation.validate_automation(
+                {
+                    cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(
+                        DFPlayerEqQueryTrigger
+                    ),
+                }
+            ),
         }
     ).extend(uart.UART_DEVICE_SCHEMA)
 )
@@ -108,6 +124,18 @@ async def to_code(config):
         trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
         await automation.build_automation(
             trigger, [(cg.uint16, "track")], conf
+        )
+
+    for conf in config.get(CONF_ON_VOLUME, []):
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+        await automation.build_automation(
+            trigger, [(cg.uint16, "volume")], conf
+        )
+
+    for conf in config.get(CONF_ON_EQUALIZER, []):
+        trigger = cg.new_Pvariable(conf[CONF_TRIGGER_ID], var)
+        await automation.build_automation(
+            trigger, [(cg.uint16, "equalizer")], conf
         )
 
 @automation.register_action(
