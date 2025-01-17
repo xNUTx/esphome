@@ -42,6 +42,7 @@ class DFPlayer : public uart::UARTDevice, public Component {
   void set_volume(uint8_t volume);
   void set_eq(EqPreset preset);
   void sleep();
+  void wake();
   void reset();
   void start();
   void pause();
@@ -163,6 +164,7 @@ template<typename... Ts> class SetEqAction : public Action<Ts...>, public Parent
 };
 
 DFPLAYER_SIMPLE_ACTION(SleepAction, sleep)
+DFPLAYER_SIMPLE_ACTION(WakeAction, wake)
 DFPLAYER_SIMPLE_ACTION(ResetAction, reset)
 DFPLAYER_SIMPLE_ACTION(StartAction, start)
 DFPLAYER_SIMPLE_ACTION(PauseAction, pause)
