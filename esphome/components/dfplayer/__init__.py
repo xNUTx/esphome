@@ -12,6 +12,9 @@ DFPlayer = dfplayer_ns.class_("DFPlayer", cg.Component)
 DFPlayerFinishedPlaybackTrigger = dfplayer_ns.class_(
     "DFPlayerFinishedPlaybackTrigger", automation.Trigger.template()
 )
+DFPlayerQueryTrackTrigger = dfplayer_ns.class_(
+    "DFPlayerQueryTrackTrigger", automation.Trigger.template()
+)
 DFPlayerIsPlayingCondition = dfplayer_ns.class_(
     "DFPlayerIsPlayingCondition", automation.Condition
 )
@@ -67,7 +70,13 @@ CONFIG_SCHEMA = cv.All(
                     ),
                 }
             ),
-            cv.Optional(CONF_ON_TRACK): automation.validate_automation(single=True),
+            cv.Optional(CONF_ON_TRACK): automation.validate_automation(
+                {
+                    cv.GenerateID(CONF_TRIGGER_ID): cv.declare_id(
+                        DFPlayerQueryTrackTrigger
+                    ),
+                }
+            ),
         }
     ).extend(uart.UART_DEVICE_SCHEMA)
 )
