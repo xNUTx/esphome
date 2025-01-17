@@ -95,7 +95,7 @@ async def to_code(config):
 
     for conf in config.get(CONF_ON_TRACK, []):
         await automation.build_automation(
-            var.get_track_trigger(), [(int, "trackid")], config[CONF_ON_TRACK]
+            var.get_track_trigger(), [(int, "trackid")], conf
         )
 
 @automation.register_action(
