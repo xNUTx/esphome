@@ -71,7 +71,7 @@ void DFPlayer::set_eq(EqPreset preset) {
   this->send_cmd_(0x07, preset);
 }
 
-void DFPlayer::get_eq() {
+void DFPlayer::get_equalizer() {
   ESP_LOGD(TAG, "Retrieving EQ Setting");
   this->send_cmd_(0x44);
 }
