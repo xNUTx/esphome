@@ -74,7 +74,7 @@ class DFPlayer : public uart::UARTDevice, public Component {
   bool ack_reset_is_playing_{false};
 
   CallbackManager<void()> on_finished_playback_callback_;
-  CallbackManager<void()> on_track_query_callback_;
+  CallbackManager<void(uint16_t)> on_track_query_callback_;
 };
 
 #define DFPLAYER_SIMPLE_ACTION(ACTION_CLASS, ACTION_METHOD) \
