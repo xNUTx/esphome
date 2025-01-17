@@ -41,7 +41,7 @@ class DFPlayer : public uart::UARTDevice, public Component {
   void set_device(Device device);
   void get_volume();
   void set_volume(uint8_t volume);
-  void get_eq();
+  void get_equalizer();
   void set_eq(EqPreset preset);
   void reset();
   void start();
