@@ -72,6 +72,12 @@ void DFPlayer::sleep() {
   this->send_cmd_(0x0A);
 }
 
+void DFPlayer::wake() {
+  this->ack_reset_is_playing_ = true;
+  ESP_LOGD(TAG, "Waking up DFPlayer from sleep");
+  this->send_cmd_(0x0B);
+}
+
 void DFPlayer::reset() {
   this->ack_reset_is_playing_ = true;
   ESP_LOGD(TAG, "Resetting DFPlayer");
