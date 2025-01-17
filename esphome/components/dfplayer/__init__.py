@@ -51,6 +51,7 @@ VolumeUpAction = dfplayer_ns.class_("VolumeUpAction", automation.Action)
 VolumeDownAction = dfplayer_ns.class_("VolumeDownAction", automation.Action)
 SetEqAction = dfplayer_ns.class_("SetEqAction", automation.Action)
 SleepAction = dfplayer_ns.class_("SleepAction", automation.Action)
+WakeAction = dfplayer_ns.class_("WakeAction", automation.Action)
 ResetAction = dfplayer_ns.class_("ResetAction", automation.Action)
 StartAction = dfplayer_ns.class_("StartAction", automation.Action)
 PauseAction = dfplayer_ns.class_("PauseAction", automation.Action)
@@ -296,6 +297,20 @@ async def dfplayer_set_eq_to_code(config, action_id, template_arg, args):
     ),
 )
 async def dfplayer_sleep_to_code(config, action_id, template_arg, args):
+    var = cg.new_Pvariable(action_id, template_arg)
+    await cg.register_parented(var, config[CONF_ID])
+    return var
+
+@automation.register_action(
+    "dfplayer.wake",
+    WakeAction,
+    cv.Schema(
+        {
+            cv.GenerateID(): cv.use_id(DFPlayer),
+        }
+    ),
+)
+async def dfplayer_wake_to_code(config, action_id, template_arg, args):
     var = cg.new_Pvariable(action_id, template_arg)
     await cg.register_parented(var, config[CONF_ID])
     return var
