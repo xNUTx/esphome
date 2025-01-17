@@ -58,7 +58,7 @@ GetVolumeAction = dfplayer_ns.class_("GetVolumeAction", automation.Action)
 SetVolumeAction = dfplayer_ns.class_("SetVolumeAction", automation.Action)
 VolumeUpAction = dfplayer_ns.class_("VolumeUpAction", automation.Action)
 VolumeDownAction = dfplayer_ns.class_("VolumeDownAction", automation.Action)
-GetEqAction = dfplayer_ns.class_("GetEqAction", automation.Action)
+GetEqualizerAction = dfplayer_ns.class_("GetEqualizerAction", automation.Action)
 SetEqAction = dfplayer_ns.class_("SetEqAction", automation.Action)
 SleepAction = dfplayer_ns.class_("SleepAction", automation.Action)
 WakeAction = dfplayer_ns.class_("WakeAction", automation.Action)
@@ -457,7 +457,7 @@ async def dfplayer_query_track_to_code(config, condition_id, template_arg, args)
 
 @automation.register_action(
     "dfplayer.get_equalizer",
-    GetEqAction,
+    GetEqualizerAction,
     cv.Schema(
         {
             cv.GenerateID(): cv.use_id(DFPlayer),
