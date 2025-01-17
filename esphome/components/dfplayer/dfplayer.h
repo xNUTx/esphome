@@ -179,8 +179,8 @@ DFPLAYER_SIMPLE_ACTION(RandomAction, random)
 DFPLAYER_SIMPLE_ACTION(VolumeUpAction, volume_up)
 DFPLAYER_SIMPLE_ACTION(VolumeDownAction, volume_down)
 DFPLAYER_SIMPLE_ACTION(QueryTrackAction, query_track)
-DFPLAYER_SIMPLE_ACTION(QueryVolumeAction, query_volume)
-DFPLAYER_SIMPLE_ACTION(QueryEqAction, query_equalizer)
+DFPLAYER_SIMPLE_ACTION(QueryVolumeAction, get_volume)
+DFPLAYER_SIMPLE_ACTION(QueryEqAction, get_equalizer)
 
 template<typename... Ts> class DFPlayerIsPlayingCondition : public Condition<Ts...>, public Parented<DFPlayer> {
  public:
