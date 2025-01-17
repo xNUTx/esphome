@@ -15,6 +15,12 @@ DFPlayerFinishedPlaybackTrigger = dfplayer_ns.class_(
 DFPlayerTrackQueryTrigger = dfplayer_ns.class_(
     "DFPlayerTrackQueryTrigger", automation.Trigger.template(cg.uint16)
 )
+DFPlayerVolumeQueryTrigger = dfplayer_ns.class_(
+    "DFPlayerVolumeQueryTrigger", automation.Trigger.template(cg.uint16)
+)
+DFPlayerEqQueryTrigger = dfplayer_ns.class_(
+    "DFPlayerEqQueryTrigger", automation.Trigger.template(cg.uint16)
+)
 DFPlayerIsPlayingCondition = dfplayer_ns.class_(
     "DFPlayerIsPlayingCondition", automation.Condition
 )
@@ -46,9 +52,11 @@ PreviousAction = dfplayer_ns.class_("PreviousAction", automation.Action)
 PlayMp3Action = dfplayer_ns.class_("PlayMp3Action", automation.Action)
 PlayFileAction = dfplayer_ns.class_("PlayFileAction", automation.Action)
 PlayFolderAction = dfplayer_ns.class_("PlayFolderAction", automation.Action)
+GetVolumeAction = dfplayer_ns.class_("GetVolumeAction", automation.Action)
 SetVolumeAction = dfplayer_ns.class_("SetVolumeAction", automation.Action)
 VolumeUpAction = dfplayer_ns.class_("VolumeUpAction", automation.Action)
 VolumeDownAction = dfplayer_ns.class_("VolumeDownAction", automation.Action)
+GetEqAction = dfplayer_ns.class_("GetEqAction", automation.Action)
 SetEqAction = dfplayer_ns.class_("SetEqAction", automation.Action)
 SleepAction = dfplayer_ns.class_("SleepAction", automation.Action)
 WakeAction = dfplayer_ns.class_("WakeAction", automation.Action)
@@ -394,6 +402,34 @@ async def dfplayer_random_to_code(config, action_id, template_arg, args):
 @automation.register_action(
     "dfplayer.query_track",
     QueryTrackAction,
+    cv.Schema(
+        {
+            cv.GenerateID(): cv.use_id(DFPlayer),
+        }
+    ),
+)
+async def dfplayer_query_track_to_code(config, condition_id, template_arg, args):
+    var = cg.new_Pvariable(condition_id, template_arg)
+    await cg.register_parented(var, config[CONF_ID])
+    return var
+
+@automation.register_action(
+    "dfplayer.get_volume",
+    GetVolumeAction,
+    cv.Schema(
+        {
+            cv.GenerateID(): cv.use_id(DFPlayer),
+        }
+    ),
+)
+async def dfplayer_query_track_to_code(config, condition_id, template_arg, args):
+    var = cg.new_Pvariable(condition_id, template_arg)
+    await cg.register_parented(var, config[CONF_ID])
+    return var
+
+@automation.register_action(
+    "dfplayer.get_equalizer",
+    GetEqAction,
     cv.Schema(
         {
             cv.GenerateID(): cv.use_id(DFPlayer),
