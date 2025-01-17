@@ -373,8 +373,8 @@ async def dfplayer_random_to_code(config, action_id, template_arg, args):
         }
     ),
 )
-async def dfplayer_query_track_to_code(config, action_id, template_arg, args):
-    var = cg.new_Pvariable(action_id, template_arg)
+async def dfplayer_query_track_to_code(config, condition_id, template_arg, args):
+    var = cg.new_Pvariable(condition_id, template_arg)
     await cg.register_parented(var, config[CONF_ID])
     return var
 
