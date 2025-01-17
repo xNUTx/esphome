@@ -61,21 +61,19 @@ void DFPlayer::set_volume(uint8_t volume) {
   this->send_cmd_(0x06, volume);
 }
 
+void DFPlayer::get_volume() {
+  ESP_LOGD(TAG, "Retrieving volume");
+  this->send_cmd_(0x43);
+}
+
 void DFPlayer::set_eq(EqPreset preset) {
   ESP_LOGD(TAG, "Setting EQ to %d", preset);
   this->send_cmd_(0x07, preset);
 }
 
-void DFPlayer::sleep() {
-  this->ack_reset_is_playing_ = true;
-  ESP_LOGD(TAG, "Putting DFPlayer to sleep");
-  this->send_cmd_(0x0A);
-}
-
-void DFPlayer::wake() {
-  this->ack_reset_is_playing_ = true;
-  ESP_LOGD(TAG, "Waking up DFPlayer from sleep");
-  this->send_cmd_(0x0B);
+void DFPlayer::get_eq() {
+  ESP_LOGD(TAG, "Retrieving EQ Setting");
+  this->send_cmd_(0x44);
 }
 
 void DFPlayer::reset() {
@@ -248,6 +246,14 @@ void DFPlayer::loop() {
             this->is_playing_ &= !this->ack_reset_is_playing_;
             this->ack_set_is_playing_ = false;
             this->ack_reset_is_playing_ = false;
+            break;
+          case 0x43:
+            ESP_LOGV(TAG, "Volume is set to %d", argument);
+            this->on_volume_query_callback_.call(argument);
+            break;
+          case 0x44:
+            ESP_LOGV(TAG, "Equalizer is set to %d", argument);
+            this->on_eq_query_callback_.call(argument);
             break;
           case 0x4C:
             ESP_LOGV(TAG, "Reply received on Query, cmd %#02x arg %04d", cmd, argument);
