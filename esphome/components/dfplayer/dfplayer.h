@@ -39,10 +39,10 @@ class DFPlayer : public uart::UARTDevice, public Component {
   void volume_up();
   void volume_down();
   void set_device(Device device);
+  void get_volume();
   void set_volume(uint8_t volume);
+  void get_eq();
   void set_eq(EqPreset preset);
-  void sleep();
-  void wake();
   void reset();
   void start();
   void pause();
@@ -59,7 +59,13 @@ class DFPlayer : public uart::UARTDevice, public Component {
   void add_on_track_query_callback(std::function<void(uint16_t)> callback) {
     this->on_track_query_callback_.add(std::move(callback));
   }
- 
+  void add_on_volume_query_callback(std::function<void(uint16_t)> callback) {
+    this->on_volume_query_callback_.add(std::move(callback));
+  }
+  void add_on_eq_query_callback(std::function<void(uint16_t)> callback) {
+    this->on_eq_query_callback_.add(std::move(callback));
+  }
+
  protected:
   void send_cmd_(uint8_t cmd, uint16_t argument = 0);
   void send_cmd_(uint8_t cmd, uint16_t high, uint16_t low) {
@@ -76,6 +82,8 @@ class DFPlayer : public uart::UARTDevice, public Component {
 
   CallbackManager<void()> on_finished_playback_callback_;
   CallbackManager<void(uint16_t)> on_track_query_callback_;
+  CallbackManager<void(uint16_t)> on_volume_query_callback_;
+  CallbackManager<void(uint16_t)> on_eq_query_callback_;
 };
 
 #define DFPLAYER_SIMPLE_ACTION(ACTION_CLASS, ACTION_METHOD) \
@@ -163,8 +171,6 @@ template<typename... Ts> class SetEqAction : public Action<Ts...>, public Parent
   }
 };
 
-DFPLAYER_SIMPLE_ACTION(SleepAction, sleep)
-DFPLAYER_SIMPLE_ACTION(WakeAction, wake)
 DFPLAYER_SIMPLE_ACTION(ResetAction, reset)
 DFPLAYER_SIMPLE_ACTION(StartAction, start)
 DFPLAYER_SIMPLE_ACTION(PauseAction, pause)
@@ -173,6 +179,8 @@ DFPLAYER_SIMPLE_ACTION(RandomAction, random)
 DFPLAYER_SIMPLE_ACTION(VolumeUpAction, volume_up)
 DFPLAYER_SIMPLE_ACTION(VolumeDownAction, volume_down)
 DFPLAYER_SIMPLE_ACTION(QueryTrackAction, query_track)
+DFPLAYER_SIMPLE_ACTION(QueryVolumeAction, query_volume)
+DFPLAYER_SIMPLE_ACTION(QueryEqAction, query_eq)
 
 template<typename... Ts> class DFPlayerIsPlayingCondition : public Condition<Ts...>, public Parented<DFPlayer> {
  public:
@@ -192,5 +200,21 @@ class DFPlayerTrackQueryTrigger : public Trigger<uint16_t> {
     parent->add_on_track_query_callback([this](uint16_t track) { this->trigger(track); });
   }
 };
+
+class DFPlayerVolumeQueryTrigger : public Trigger<uint16_t> {
+ public:
+  explicit DFPlayerVolumeQueryTrigger(DFPlayer *parent) {
+    parent->add_on_volume_query_callback([this](uint16_t volume) { this->trigger(volume); });
+  }
+};
+
+class DFPlayerEqQueryTrigger : public Trigger<uint16_t> {
+ public:
+  explicit DFPlayerEqQueryTrigger(DFPlayer *parent) {
+    parent->add_on_eq_query_callback([this](uint16_t equalizer) { this->trigger(equalizer); });
+  }
+};
+
 }  // namespace dfplayer
 }  // namespace esphome
+
