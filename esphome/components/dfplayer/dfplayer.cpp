@@ -76,6 +76,12 @@ void DFPlayer::get_equalizer() {
   this->send_cmd_(0x44);
 }
 
+void DFPlayer::sleep() {
+  this->ack_reset_is_playing_ = true;
+  ESP_LOGD(TAG, "Putting DFPlayer to sleep");
+  this->send_cmd_(0x0A);
+}
+
 void DFPlayer::reset() {
   this->ack_reset_is_playing_ = true;
   ESP_LOGD(TAG, "Resetting DFPlayer");
