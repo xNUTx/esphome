@@ -19,7 +19,7 @@ DFPlayerVolumeQueryTrigger = dfplayer_ns.class_(
     "DFPlayerVolumeQueryTrigger", automation.Trigger.template(cg.uint16)
 )
 DFPlayerEqQueryTrigger = dfplayer_ns.class_(
-    "DFPlayerEqQueryTrigger", automation.Trigger.template()
+    "DFPlayerEqQueryTrigger", automation.Trigger.template(cg.uint16)
 )
 DFPlayerIsPlayingCondition = dfplayer_ns.class_(
     "DFPlayerIsPlayingCondition", automation.Condition
@@ -450,7 +450,7 @@ async def dfplayer_query_track_to_code(config, condition_id, template_arg, args)
         }
     ),
 )
-async def dfplayer_query_track_to_code(config, condition_id, template_arg, args):
+async def dfplayer_get_volume_to_code(config, condition_id, template_arg, args):
     var = cg.new_Pvariable(condition_id, template_arg)
     await cg.register_parented(var, config[CONF_ID])
     return var
@@ -464,7 +464,7 @@ async def dfplayer_query_track_to_code(config, condition_id, template_arg, args)
         }
     ),
 )
-async def dfplayer_query_track_to_code(config, condition_id, template_arg, args):
+async def dfplayer_get_equalizer_to_code(config, condition_id, template_arg, args):
     var = cg.new_Pvariable(condition_id, template_arg)
     await cg.register_parented(var, config[CONF_ID])
     return var
