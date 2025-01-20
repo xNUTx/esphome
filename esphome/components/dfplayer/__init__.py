@@ -19,7 +19,7 @@ DFPlayerVolumeQueryTrigger = dfplayer_ns.class_(
     "DFPlayerVolumeQueryTrigger", automation.Trigger.template(cg.uint16)
 )
 DFPlayerEqQueryTrigger = dfplayer_ns.class_(
-    "DFPlayerEqQueryTrigger", automation.Trigger.template(cg.string)
+    "DFPlayerEqQueryTrigger", automation.Trigger.template()
 )
 DFPlayerIsPlayingCondition = dfplayer_ns.class_(
     "DFPlayerIsPlayingCondition", automation.Condition
