@@ -18,6 +18,15 @@ enum EqPreset {
   BASS = 5,
 };
 
+enum EqReturn {
+  0 = NORMAL,
+  1 = POP,
+  2 = ROCK,
+  3 = JAZZ,
+  4 = CLASSIC,
+  5 = BASS,
+};
+
 enum Device {
   USB = 1,
   TF_CARD = 2,
@@ -84,7 +93,7 @@ class DFPlayer : public uart::UARTDevice, public Component {
   CallbackManager<void()> on_finished_playback_callback_;
   CallbackManager<void(uint16_t)> on_track_query_callback_;
   CallbackManager<void(uint16_t)> on_volume_query_callback_;
-  CallbackManager<void(uint16_t)> on_eq_query_callback_;
+  CallbackManager<void(str)> on_eq_query_callback_;
 };
 
 #define DFPLAYER_SIMPLE_ACTION(ACTION_CLASS, ACTION_METHOD) \
@@ -212,8 +221,11 @@ class DFPlayerVolumeQueryTrigger : public Trigger<uint16_t> {
 
 class DFPlayerEqQueryTrigger : public Trigger<uint16_t> {
  public:
+  TEMPLATABLE_VALUE(EqReturn, equalizer)
+
   explicit DFPlayerEqQueryTrigger(DFPlayer *parent) {
-    parent->add_on_eq_query_callback([this](uint16_t equalizer) { this->trigger(equalizer); });
+    auto eq = this->eq_.value(x...);
+    parent->add_on_eq_query_callback([this](str equalizer) { this->trigger(equalizer); });
   }
 };
 
