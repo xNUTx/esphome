@@ -346,21 +346,6 @@ async def dfplayer_sleep_to_code(config, action_id, template_arg, args):
     return var
 
 @automation.register_action(
-    "dfplayer.wake",
-    WakeAction,
-    cv.Schema(
-        {
-            cv.GenerateID(): cv.use_id(DFPlayer),
-        }
-    ),
-)
-async def dfplayer_wake_to_code(config, action_id, template_arg, args):
-    var = cg.new_Pvariable(action_id, template_arg)
-    await cg.register_parented(var, config[CONF_ID])
-    return var
-
-
-@automation.register_action(
     "dfplayer.reset",
     ResetAction,
     cv.Schema(
@@ -475,7 +460,7 @@ async def dfplayer_get_volume_to_code(config, condition_id, template_arg, args):
 async def dfplayer_get_equalizer_to_code(config, condition_id, template_arg, args):
     var = cg.new_Pvariable(condition_id, template_arg)
     await cg.register_parented(var, config[CONF_ID])
-    return EqConversion[var]
+    return var
 
 @automation.register_condition(
     "dfplayer.is_playing",
