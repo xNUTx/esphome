@@ -49,12 +49,12 @@ DEVICE = {
     "TF_CARD": Device.TF_CARD,
 }
 EqConversion = {
-    "0" = "NORMAL",
-    "1" = "POP",
-    "2" = "ROCK",
-    "3" = "JAZZ",
-    "4" = "CLASSIC",
-    "5" = "BASS"
+    "0" : "NORMAL",
+    "1" : "POP",
+    "2" : "ROCK",
+    "3" : "JAZZ",
+    "4" : "CLASSIC",
+    "5" : "BASS"
 }
 
 NextAction = dfplayer_ns.class_("NextAction", automation.Action)
