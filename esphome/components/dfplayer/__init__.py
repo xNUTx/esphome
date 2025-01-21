@@ -48,6 +48,14 @@ DEVICE = {
     "USB": Device.USB,
     "TF_CARD": Device.TF_CARD,
 }
+EqConversion = {
+    "0" = "NORMAL",
+    "1" = "POP",
+    "2" = "ROCK",
+    "3" = "JAZZ",
+    "4" = "CLASSIC",
+    "5" = "BASS"
+}
 
 NextAction = dfplayer_ns.class_("NextAction", automation.Action)
 PreviousAction = dfplayer_ns.class_("PreviousAction", automation.Action)
@@ -467,7 +475,7 @@ async def dfplayer_get_volume_to_code(config, condition_id, template_arg, args):
 async def dfplayer_get_equalizer_to_code(config, condition_id, template_arg, args):
     var = cg.new_Pvariable(condition_id, template_arg)
     await cg.register_parented(var, config[CONF_ID])
-    return var
+    return EqConversion[var]
 
 @automation.register_condition(
     "dfplayer.is_playing",
